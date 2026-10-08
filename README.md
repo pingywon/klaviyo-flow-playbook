@@ -6,7 +6,7 @@ The emails an online store sends on its own, and what each one is for.
 
 These are the automated email flows from a working Klaviyo account, rewritten to fit any shop. The store's name, products, addresses, codes and account IDs are gone. The structure is kept: what starts each flow, how long it waits, who it skips, and what each email has to do.
 
-Current version: <!-- version -->v1.0.0<!-- /version -->
+Current version: <!-- version -->v1.0.1<!-- /version -->
 
 ## The flows
 
@@ -75,6 +75,6 @@ python3 tools/build_site.py
 python3 -m unittest discover -s tests
 ```
 
-The page (`docs/index.html`) and the tables above are generated from the flow files. The version number comes from `VERSION`.
+The page (`docs/index.html`) and the tables above are generated from the flow files. The version number comes from `VERSION`. The tab icon is drawn by `tools/make_icons.py`, which needs Pillow.
 
 An independent project. Not affiliated with or endorsed by Klaviyo. Typeface credit is in `CREDITS.md`.

@@ -41,6 +41,11 @@ class Playbook(unittest.TestCase):
         self.assertEqual(links, {build_site.REPO_URL})
         self.assertEqual(re.findall(r"url\([\"']?https?:", self.page), [])
 
+    def test_tab_icon_is_linked_and_present(self):
+        for name in re.findall(r'<link rel="(?:icon|apple-touch-icon)" href="([^"]+)"', self.page):
+            self.assertTrue((ROOT / "docs" / name).is_file(), name)
+        self.assertIn('href="favicon.svg"', self.page)
+
     def test_times(self):
         self.assertEqual(build_site.after(0), "at once")
         self.assertEqual(build_site.after(5), "after 5 minutes")
