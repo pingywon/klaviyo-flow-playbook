@@ -1,0 +1,26 @@
+{
+  "id": "price-drop-alert",
+  "name": "Price drop alert",
+  "moment": "shopping",
+  "status": "running",
+  "purpose": "Says when something they looked at got cheaper.",
+  "trigger": "the price of a product drops, by any amount",
+  "steps": [
+    {
+      "do": "email",
+      "name": "It just got cheaper",
+      "job": "Shows the item, the old price and the new one.",
+      "subject": "Something you looked at just dropped in price"
+    }
+  ],
+  "rules": [
+    "Goes to people who viewed it or started a checkout with it in the last 60 days.",
+    "Skips anyone who already bought it."
+  ],
+  "why": [
+    "It is news, not a promotion. The price change is the offer."
+  ],
+  "watch": [
+    "A one-cent drop is enough to send. Set a minimum if prices move often."
+  ]
+}

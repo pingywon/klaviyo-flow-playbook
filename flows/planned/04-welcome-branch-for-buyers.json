@@ -1,0 +1,22 @@
+{
+  "id": "welcome-branch-for-buyers",
+  "name": "Welcome branch for buyers",
+  "tier": "next",
+  "purpose": "Stops offering a first-order code to people who already ordered.",
+  "trigger": "someone joins the newsletter list (a split at the top of the welcome series)",
+  "steps": [
+    {
+      "do": "split",
+      "ask": "Has ordered before?",
+      "yes": "Gets a thank-you and the owner's guide instead of the code.",
+      "no": "Gets the normal welcome series."
+    }
+  ],
+  "needs": [
+    "Nothing new. One split added to the welcome series."
+  ],
+  "why": [
+    "Existing customers join the list too. A first-order code tells them the shop does not know them."
+  ],
+  "status": "planned"
+}

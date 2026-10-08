@@ -1,0 +1,24 @@
+{
+  "id": "standing-ab-tests",
+  "name": "Standing A/B tests",
+  "tier": "later",
+  "purpose": "Keeps one test running on the busiest flows.",
+  "trigger": "inside the welcome series and the abandoned cart flow",
+  "steps": [
+    {
+      "do": "note",
+      "text": "Tests one thing at a time: send time, subject line, or code against no code."
+    },
+    {
+      "do": "note",
+      "text": "Keeps the winner, then starts the next test."
+    }
+  ],
+  "needs": [
+    "Enough sends each week to reach a clear result."
+  ],
+  "why": [
+    "Small gains on the busiest flows add up faster than a new flow."
+  ],
+  "status": "planned"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "delivery-timed-guide",
+  "name": "Delivery-timed guide",
+  "tier": "next",
+  "purpose": "Starts the how-to emails when the parcel actually arrives.",
+  "trigger": "the carrier marks an order delivered",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 1,
+      "unit": "hours"
+    },
+    {
+      "do": "email",
+      "name": "It's here: start with this",
+      "job": "First-use tips, sent the day it lands.",
+      "subject": "It's here: start with this"
+    },
+    {
+      "do": "note",
+      "text": "The rest of the owner's guide series follows from this point."
+    }
+  ],
+  "needs": [
+    "The delivery event from the store platform or the carrier."
+  ],
+  "why": [
+    "Replaces the day-5 guess in the owner's guide series."
+  ],
+  "status": "planned"
+}

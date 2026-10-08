@@ -1,0 +1,21 @@
+{
+  "id": "alerts-to-team-chat",
+  "name": "Alerts to team chat",
+  "tier": "later",
+  "purpose": "Sends owner alerts to chat or a helpdesk instead of an inbox.",
+  "trigger": "any internal alert: waitlist signups, refunds, large orders",
+  "steps": [
+    {
+      "do": "webhook",
+      "name": "Post to team chat",
+      "job": "Sends the product, the customer and a link."
+    }
+  ],
+  "needs": [
+    "A chat tool or helpdesk that accepts webhooks."
+  ],
+  "why": [
+    "Alerts get seen where the team already works."
+  ],
+  "status": "planned"
+}

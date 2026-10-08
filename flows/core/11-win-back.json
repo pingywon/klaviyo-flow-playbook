@@ -1,0 +1,43 @@
+{
+  "id": "win-back",
+  "name": "Win-back",
+  "moment": "gone-quiet",
+  "status": "running",
+  "purpose": "Invites lapsed customers back before they forget.",
+  "trigger": "a customer enters the lapsed group: ordered before, nothing in 180 days, still subscribed",
+  "steps": [
+    {
+      "do": "email",
+      "name": "Come back",
+      "job": "A 10% code with no minimum.",
+      "subject": "It's been a while: here's 10% to come back"
+    },
+    {
+      "do": "wait",
+      "amount": 7,
+      "unit": "days"
+    },
+    {
+      "do": "split",
+      "ask": "Ordered in the last 7 days?",
+      "yes": "Stops. They came back.",
+      "no": "Continues."
+    },
+    {
+      "do": "email",
+      "name": "Last call",
+      "job": "Says the code expires in 48 hours.",
+      "subject": "Last call: your 10% ends in 48 hours"
+    }
+  ],
+  "rules": [
+    "The group refills itself. Nobody is added by hand."
+  ],
+  "why": [
+    "Nobody who came back gets chased again.",
+    "Two emails, then silence."
+  ],
+  "watch": [
+    "Set the 180 days from the real gap between orders. Too early annoys regulars. Too late and they are gone."
+  ]
+}

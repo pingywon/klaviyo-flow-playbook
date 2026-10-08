@@ -1,0 +1,27 @@
+{
+  "id": "review-to-referral",
+  "name": "Review to referral",
+  "tier": "then",
+  "purpose": "Asks happy reviewers to bring a friend.",
+  "trigger": "someone leaves a five-star review",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 1,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "Know someone who'd like it?",
+      "job": "Thanks them and gives a link to share.",
+      "subject": "Thanks for the review. Know someone who'd like it?"
+    }
+  ],
+  "needs": [
+    "A reviews app that sends review events to Klaviyo."
+  ],
+  "why": [
+    "The ask lands at the moment they are happiest with the shop."
+  ],
+  "status": "planned"
+}

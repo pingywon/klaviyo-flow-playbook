@@ -1,0 +1,33 @@
+{
+  "id": "second-order-nudge",
+  "name": "Second-order nudge",
+  "tier": "next",
+  "purpose": "Earns the second order, the hardest one to get.",
+  "trigger": "someone places their first order",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 30,
+      "unit": "days"
+    },
+    {
+      "do": "split",
+      "ask": "Ordered again?",
+      "yes": "Stops.",
+      "no": "Continues."
+    },
+    {
+      "do": "email",
+      "name": "Ready for the next one?",
+      "job": "Suggests what first-time buyers usually add.",
+      "subject": "Ready for the next one?"
+    }
+  ],
+  "needs": [
+    "Nothing new. Order history is already there."
+  ],
+  "why": [
+    "A first-time buyer has no habit yet. This gives one reason to return."
+  ],
+  "status": "planned"
+}

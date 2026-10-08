@@ -1,0 +1,28 @@
+{
+  "id": "smarter-cart-branches",
+  "name": "Smarter cart branches",
+  "tier": "then",
+  "purpose": "Treats big carts and returning customers differently.",
+  "trigger": "someone starts a checkout (splits inside the abandoned cart flow)",
+  "steps": [
+    {
+      "do": "split",
+      "ask": "Is the cart large?",
+      "yes": "Gets a personal note and an offer of help.",
+      "no": "Gets the standard reminders."
+    },
+    {
+      "do": "split",
+      "ask": "Has ordered before?",
+      "yes": "Gets reminders with no code.",
+      "no": "Gets the code in the last email."
+    }
+  ],
+  "needs": [
+    "Enough carts each week to see a difference between paths."
+  ],
+  "why": [
+    "Discounts go only where they change the outcome."
+  ],
+  "status": "planned"
+}

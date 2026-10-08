@@ -1,0 +1,75 @@
+{
+  "id": "owners-guide-series",
+  "name": "Owner's guide series",
+  "moment": "after-order",
+  "status": "running",
+  "purpose": "Teaches new customers to use what they bought.",
+  "trigger": "someone places an order",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 5,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "Getting started",
+      "job": "First-use tips, timed to land with the parcel.",
+      "subject": "It should be with you by now: start here"
+    },
+    {
+      "do": "wait",
+      "amount": 3,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "How to choose",
+      "job": "Explains the one spec that matters most.",
+      "subject": "How to read a spec sheet in one minute"
+    },
+    {
+      "do": "wait",
+      "amount": 5,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "Care and upkeep",
+      "job": "The common mistake that shortens the product's life.",
+      "subject": "The mistake that wears it out early"
+    },
+    {
+      "do": "wait",
+      "amount": 10,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "Make it a habit",
+      "job": "How people fit it into an ordinary day.",
+      "subject": "How to actually use it every day"
+    },
+    {
+      "do": "wait",
+      "amount": 10,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "What to add next",
+      "job": "What most customers buy second. A soft sell.",
+      "subject": "A month in: what most people add next"
+    }
+  ],
+  "rules": [
+    "Every order starts the series."
+  ],
+  "why": [
+    "Four emails teach before one sells.",
+    "A customer who knows how to use it is less likely to send it back."
+  ],
+  "watch": [
+    "Day 5 is a guess at delivery. Starting from the delivery event is more exact."
+  ]
+}

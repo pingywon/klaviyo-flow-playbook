@@ -1,0 +1,30 @@
+{
+  "id": "review-request",
+  "name": "Review request",
+  "moment": "after-order",
+  "status": "built",
+  "purpose": "Asks for a review after real use.",
+  "trigger": "someone places an order",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 16,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "How is it working out?",
+      "job": "One question and one button. About a minute to answer.",
+      "subject": "How is it working out?"
+    }
+  ],
+  "rules": [
+    "There is an empty slot for a thank-you note 30 minutes after the order."
+  ],
+  "why": [
+    "Sixteen days covers shipping plus real use."
+  ],
+  "watch": [
+    "Kept off while a reviews app sends its own request. Two asks for one review is one too many."
+  ]
+}

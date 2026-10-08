@@ -1,0 +1,22 @@
+{
+  "id": "predicted-reorder",
+  "name": "Predicted reorder",
+  "tier": "later",
+  "purpose": "Reminds each customer near the date they are likely to reorder.",
+  "trigger": "a few days before Klaviyo's predicted next-order date for that person",
+  "steps": [
+    {
+      "do": "email",
+      "name": "About time for another?",
+      "job": "Shows their last order with a link to reorder it.",
+      "subject": "About time for another?"
+    }
+  ],
+  "needs": [
+    "Klaviyo's predictive analytics. At the time of writing that takes about 500 customers with orders, 180 days of order history, orders in the last 30 days, and some customers with three or more orders."
+  ],
+  "why": [
+    "Replaces the fixed 300-day wait with a date per person."
+  ],
+  "status": "planned"
+}

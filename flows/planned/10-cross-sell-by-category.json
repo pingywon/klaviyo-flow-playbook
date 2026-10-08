@@ -1,0 +1,32 @@
+{
+  "id": "cross-sell-by-category",
+  "name": "Cross-sell by category",
+  "tier": "then",
+  "purpose": "Recommends the right next product for what was just bought.",
+  "trigger": "someone places an order",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 7,
+      "unit": "days"
+    },
+    {
+      "do": "note",
+      "text": "Splits by the category they bought. Each path has its own recommendation."
+    },
+    {
+      "do": "email",
+      "name": "Goes well with yours",
+      "job": "The match for their category, or best sellers if there is none.",
+      "subject": "Goes well with what you bought"
+    }
+  ],
+  "needs": [
+    "Tidy product categories.",
+    "One recommendation set per category."
+  ],
+  "why": [
+    "Replaces the single accessory cross-sell with one that fits every order."
+  ],
+  "status": "planned"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "back-in-stock",
+  "name": "Back in stock",
+  "moment": "shopping",
+  "status": "running",
+  "purpose": "Tells people a sold-out item has returned.",
+  "trigger": "someone asks to be told when a sold-out product returns",
+  "steps": [
+    {
+      "do": "wait-for",
+      "event": "the product is back in stock",
+      "label": "waits for the restock"
+    },
+    {
+      "do": "email",
+      "name": "It's back",
+      "job": "Names the product and links straight to it.",
+      "subject": "Back in stock: the one you asked about"
+    }
+  ],
+  "rules": [
+    "Sent as a transactional message. They asked for it, so it reaches people who are not on the newsletter."
+  ],
+  "why": [
+    "The highest-intent email in the set. They asked for this product by name."
+  ],
+  "watch": [
+    "Transactional status needs the platform's approval and locks the email while approved. Plan edits between restocks."
+  ]
+}

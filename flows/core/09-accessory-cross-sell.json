@@ -1,0 +1,30 @@
+{
+  "id": "accessory-cross-sell",
+  "name": "Accessory cross-sell",
+  "moment": "after-order",
+  "status": "built",
+  "purpose": "Offers the add-on a new purchase needs.",
+  "trigger": "someone places an order",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 3,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "The missing piece",
+      "job": "Offers the matching add-on, with 10% off that category.",
+      "subject": "The one thing your order still needs"
+    }
+  ],
+  "rules": [
+    "Every order enters. There is no product filter yet."
+  ],
+  "why": [
+    "Three days in, the order is still top of mind and the parcel is on its way."
+  ],
+  "watch": [
+    "Before switching on, limit it to people who bought the main product without the add-on."
+  ]
+}

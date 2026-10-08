@@ -1,0 +1,54 @@
+{
+  "id": "abandoned-cart",
+  "name": "Abandoned cart",
+  "moment": "shopping",
+  "status": "running",
+  "purpose": "Recovers a checkout that was started, not finished.",
+  "trigger": "someone starts a checkout",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 1,
+      "unit": "hours"
+    },
+    {
+      "do": "email",
+      "name": "Your cart is saved",
+      "job": "A plain reminder with a link straight back to the cart.",
+      "subject": "We saved your cart"
+    },
+    {
+      "do": "wait",
+      "amount": 12,
+      "unit": "hours"
+    },
+    {
+      "do": "email",
+      "name": "Still holding it",
+      "job": "Adds a deadline and answers the most common doubt.",
+      "subject": "Your cart won't hold forever"
+    },
+    {
+      "do": "wait",
+      "amount": 12,
+      "unit": "hours"
+    },
+    {
+      "do": "email",
+      "name": "Last call",
+      "job": "Final reminder, with a 10% code.",
+      "subject": "Last call: 10% off if you finish today"
+    }
+  ],
+  "rules": [
+    "Anyone who orders leaves the flow at once.",
+    "The same person can re-enter after 7 days."
+  ],
+  "why": [
+    "The code only appears in the third email. Shoppers who would buy anyway never see it.",
+    "All three land inside 25 hours, while the intent is fresh."
+  ],
+  "watch": [
+    "One bad template tag can make every send skip without an error. Check send counts after each template edit."
+  ]
+}

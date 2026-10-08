@@ -1,0 +1,22 @@
+{
+  "id": "text-message-steps",
+  "name": "Text-message steps",
+  "tier": "later",
+  "purpose": "Adds a text where minutes matter.",
+  "trigger": "inside existing flows: abandoned cart, back in stock, delivery",
+  "steps": [
+    {
+      "do": "text",
+      "name": "Short text",
+      "job": "Goes to people who agreed to texts. Email stays as the fallback."
+    }
+  ],
+  "needs": [
+    "A sending number.",
+    "Text-message consent collected at signup or checkout."
+  ],
+  "why": [
+    "A restock can sell out before an email gets opened."
+  ],
+  "status": "planned"
+}

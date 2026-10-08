@@ -1,0 +1,22 @@
+{
+  "id": "vip-thank-you",
+  "name": "VIP thank-you",
+  "tier": "then",
+  "purpose": "Rewards the best customers before they ask.",
+  "trigger": "someone enters the VIP group, for example three or more orders",
+  "steps": [
+    {
+      "do": "email",
+      "name": "You're one of our regulars",
+      "job": "Thanks them. Gives early access to new arrivals, not a discount.",
+      "subject": "You're one of our regulars"
+    }
+  ],
+  "needs": [
+    "Enough repeat buyers for the group to mean something."
+  ],
+  "why": [
+    "Regulars buy without discounts. Recognition keeps it that way."
+  ],
+  "status": "planned"
+}

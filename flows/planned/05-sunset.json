@@ -1,0 +1,38 @@
+{
+  "id": "sunset",
+  "name": "Sunset",
+  "tier": "next",
+  "purpose": "Stops emailing people who no longer open.",
+  "trigger": "someone enters the unengaged group: no opens or clicks in 120 days",
+  "steps": [
+    {
+      "do": "email",
+      "name": "Still want these?",
+      "job": "One clear button to stay subscribed.",
+      "subject": "Still want to hear from us?"
+    },
+    {
+      "do": "wait",
+      "amount": 7,
+      "unit": "days"
+    },
+    {
+      "do": "split",
+      "ask": "Clicked to stay?",
+      "yes": "Stops. They stay on the list.",
+      "no": "Continues."
+    },
+    {
+      "do": "note",
+      "text": "Marketing emails to them are switched off."
+    }
+  ],
+  "needs": [
+    "A group built from opens and clicks."
+  ],
+  "why": [
+    "Inbox providers judge a sender by how many people engage.",
+    "Klaviyo bills by active profiles, so a clean list also costs less."
+  ],
+  "status": "planned"
+}

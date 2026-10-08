@@ -1,0 +1,39 @@
+{
+  "id": "churn-risk-save",
+  "name": "Churn-risk save",
+  "tier": "later",
+  "purpose": "Reaches customers who are drifting, before they lapse.",
+  "trigger": "someone enters the high churn-risk group",
+  "steps": [
+    {
+      "do": "email",
+      "name": "Anything we can help with?",
+      "job": "Useful content first. No offer.",
+      "subject": "Anything we can help with?"
+    },
+    {
+      "do": "wait",
+      "amount": 7,
+      "unit": "days"
+    },
+    {
+      "do": "split",
+      "ask": "Ordered since?",
+      "yes": "Stops.",
+      "no": "Continues."
+    },
+    {
+      "do": "email",
+      "name": "A small thank-you",
+      "job": "A modest offer for staying.",
+      "subject": "A small thank-you for sticking around"
+    }
+  ],
+  "needs": [
+    "Klaviyo's predictive analytics, as for the predicted reorder."
+  ],
+  "why": [
+    "Win-back waits 180 days. This acts when the risk first shows."
+  ],
+  "status": "planned"
+}

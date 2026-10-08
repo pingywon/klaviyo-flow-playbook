@@ -1,0 +1,53 @@
+{
+  "id": "welcome-series",
+  "name": "Welcome series",
+  "moment": "new-subscriber",
+  "status": "running",
+  "purpose": "Turns a new subscriber into a first-time buyer.",
+  "trigger": "someone joins the newsletter list",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 5,
+      "unit": "minutes"
+    },
+    {
+      "do": "email",
+      "name": "Welcome",
+      "job": "Says hello and what to expect.",
+      "subject": "Welcome aboard: here's what to expect"
+    },
+    {
+      "do": "wait",
+      "amount": 2,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "First-order code",
+      "job": "A one-time 10% code that expires in 30 days.",
+      "subject": "Your first-order code is ready"
+    },
+    {
+      "do": "wait",
+      "amount": 3,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "Why this shop",
+      "job": "The story behind what the shop sells. No offer.",
+      "subject": "Why we're picky about what we sell"
+    }
+  ],
+  "rules": [
+    "Everyone added to the list enters once."
+  ],
+  "why": [
+    "The code waits until day 2. The first email only has to get opened.",
+    "The last email sells nothing. It gives a reason to stay subscribed."
+  ],
+  "watch": [
+    "Bulk-adding old contacts to the list starts this flow for every one of them."
+  ]
+}

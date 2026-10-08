@@ -1,0 +1,27 @@
+{
+  "id": "refund-follow-up",
+  "name": "Refund follow-up",
+  "tier": "next",
+  "purpose": "Turns a refund into feedback.",
+  "trigger": "an order is refunded",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 1,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "What went wrong?",
+      "job": "One question. Replies go to a person.",
+      "subject": "Sorry it didn't work out. What went wrong?"
+    }
+  ],
+  "needs": [
+    "The refund event from the store platform."
+  ],
+  "why": [
+    "The answers show what to fix on the product page."
+  ],
+  "status": "planned"
+}

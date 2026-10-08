@@ -1,0 +1,32 @@
+{
+  "id": "reorder-reminder",
+  "name": "Reorder reminder",
+  "moment": "after-order",
+  "status": "built",
+  "purpose": "Prompts a replacement before the old one wears out.",
+  "trigger": "someone places an order",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 300,
+      "unit": "days"
+    },
+    {
+      "do": "email",
+      "name": "About ten months in",
+      "job": "Explains the signs of wear and links the replacement.",
+      "subject": "Yours is about ten months old"
+    }
+  ],
+  "rules": [
+    "Only orders from the category that wears out.",
+    "Skipped if they ordered anything in the last 60 days."
+  ],
+  "why": [
+    "The wait matches how long the product really lasts.",
+    "It opens with advice, so it reads as service."
+  ],
+  "watch": [
+    "300 days is one number for a whole category. Split by product when lifespans differ."
+  ]
+}

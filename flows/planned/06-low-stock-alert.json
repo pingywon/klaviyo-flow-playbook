@@ -1,0 +1,22 @@
+{
+  "id": "low-stock-alert",
+  "name": "Low-stock alert",
+  "tier": "next",
+  "purpose": "Warns interested shoppers when an item is nearly gone.",
+  "trigger": "a product's stock falls below a set number (a built-in trigger)",
+  "steps": [
+    {
+      "do": "email",
+      "name": "Almost gone",
+      "job": "Shows the item and how few are left. No discount.",
+      "subject": "Almost gone: the one you looked at"
+    }
+  ],
+  "needs": [
+    "Stock levels synced from the store platform."
+  ],
+  "why": [
+    "Honest scarcity. It only sends when stock is truly low."
+  ],
+  "status": "planned"
+}

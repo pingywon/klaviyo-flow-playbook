@@ -1,0 +1,37 @@
+{
+  "id": "browse-abandonment",
+  "name": "Browse abandonment",
+  "moment": "shopping",
+  "status": "running",
+  "purpose": "Brings back someone who looked and left.",
+  "trigger": "someone views a product",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 4,
+      "unit": "hours"
+    },
+    {
+      "do": "split",
+      "ask": "Clicked any email in the last 24 hours, or already got this reminder today?",
+      "yes": "Stops. They are already engaged.",
+      "no": "Continues."
+    },
+    {
+      "do": "email",
+      "name": "The second look",
+      "job": "Shows what they viewed, with a small one-time code.",
+      "subject": "Still thinking it over?"
+    }
+  ],
+  "rules": [
+    "Skips anyone who started a checkout in the last 4 hours. The cart flow has them.",
+    "Staff and test addresses are filtered out."
+  ],
+  "why": [
+    "One email only. Browsing is a weak signal, so it gets a light touch."
+  ],
+  "watch": [
+    "Without the split, a frequent browser gets this every day."
+  ]
+}

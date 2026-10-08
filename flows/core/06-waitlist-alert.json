@@ -1,0 +1,24 @@
+{
+  "id": "waitlist-alert",
+  "name": "Waitlist alert",
+  "moment": "shopping",
+  "status": "running",
+  "purpose": "Tells the owner what shoppers are waiting for.",
+  "trigger": "someone asks to be told about a sold-out product",
+  "steps": [
+    {
+      "do": "alert",
+      "name": "Note to the owner",
+      "job": "Which product and which customer, sent to the shop's own inbox."
+    }
+  ],
+  "rules": [
+    "Internal only. No customer sees it."
+  ],
+  "why": [
+    "Every signup is a demand signal. It shows what to reorder first."
+  ],
+  "watch": [
+    "A popular product can flood the inbox. Move to a daily summary as volume grows."
+  ]
+}

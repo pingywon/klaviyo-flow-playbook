@@ -1,0 +1,22 @@
+{
+  "id": "purchase-anniversary",
+  "name": "Purchase anniversary",
+  "tier": "then",
+  "purpose": "Marks a year since the first order.",
+  "trigger": "the date of someone's first order comes around (a date-based trigger)",
+  "steps": [
+    {
+      "do": "email",
+      "name": "One year in",
+      "job": "Shows what is new since they bought. Suggests an upgrade or a replacement.",
+      "subject": "One year in: here's what's new"
+    }
+  ],
+  "needs": [
+    "The first-order date saved on each profile."
+  ],
+  "why": [
+    "A reason to write that is about them, not about a sale."
+  ],
+  "status": "planned"
+}

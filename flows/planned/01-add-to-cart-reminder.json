@@ -1,0 +1,33 @@
+{
+  "id": "add-to-cart-reminder",
+  "name": "Add-to-cart reminder",
+  "tier": "next",
+  "purpose": "Catches shoppers who add to cart but never reach checkout.",
+  "trigger": "someone adds a product to the cart",
+  "steps": [
+    {
+      "do": "wait",
+      "amount": 3,
+      "unit": "hours"
+    },
+    {
+      "do": "split",
+      "ask": "Started a checkout or ordered since?",
+      "yes": "Stops. The cart flow or the order has them.",
+      "no": "Continues."
+    },
+    {
+      "do": "email",
+      "name": "Still in your cart",
+      "job": "Shows the item and links straight back to the cart.",
+      "subject": "You left something in your cart"
+    }
+  ],
+  "needs": [
+    "The add-to-cart event from the store platform."
+  ],
+  "why": [
+    "It reaches people one step earlier than the abandoned cart flow can."
+  ],
+  "status": "planned"
+}
