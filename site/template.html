@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow Playbook</title>
+<meta name="description" content="The emails an online store sends on its own, what each one is for, and what to add as the store grows. {{N_CORE}} Klaviyo flows with the store's details removed.">
+<meta property="og:title" content="Flow Playbook">
+<meta property="og:description" content="The emails an online store sends on its own, what each one is for, and what to add as the store grows.">
+<meta property="og:type" content="website">
+<style>
+@font-face{font-family:"Overpass";font-style:normal;font-weight:400 800;font-display:swap;src:url("fonts/overpass-latin.woff2") format("woff2")}
+:root{
+  color-scheme:light dark;
+  --paper:#f4f6f8;--ink:#16233b;--ink-2:#44526a;--ink-3:#5f6c80;--rule:#d3dae3;
+  --green:#0e8a6e;--blue:#1f5fd0;--amber:#e0a000;--red:#c0392b;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#12161c;--ink:#eef2f7;--ink-2:#b8c2d0;--ink-3:#93a0b3;--rule:#2c3542;
+    --green:#16a374;--blue:#3987e5;--amber:#c98500;--red:#d6453f;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.5 "Overpass",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:70rem;margin:0 auto;padding:0 1.25rem}
+a{color:inherit;text-underline-offset:.2em}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+.stripe{display:flex;height:.4rem}
+.stripe i{flex:1}
+.stripe i:nth-child(1){background:var(--green)}
+.stripe i:nth-child(2){background:var(--blue)}
+.stripe i:nth-child(3){background:var(--amber)}
+.stripe i:nth-child(4){background:var(--red)}
+
+h1{font-size:clamp(2.75rem,9vw,5.25rem);line-height:.92;font-weight:800;letter-spacing:-.035em;margin:2.75rem 0 1.1rem}
+h2{font-size:clamp(1.45rem,3.2vw,2rem);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin:0 0 1rem}
+.lead{font-size:clamp(1.15rem,2.5vw,1.55rem);line-height:1.3;font-weight:600;max-width:32ch;margin:0 0 .7rem}
+.sub{color:var(--ink-2);max-width:54ch;margin:0}
+
+.key{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;list-style:none;padding:0;margin:1.6rem 0 0;font-size:.9rem;color:var(--ink-2)}
+.key li{display:flex;align-items:center;gap:.55rem}
+.sw{width:2.2rem;height:.375rem;border-radius:1rem;background:var(--ink)}
+.sw-built{background:none;border:1.5px solid var(--ink)}
+.sw-planned{background:none;height:0;border-radius:0;border-top:.2rem dashed var(--ink-3)}
+
+.map{margin-top:3.25rem}
+.row{display:grid;grid-template-columns:1fr 1.25rem;grid-template-areas:"info toggle" "track track";column-gap:1rem}
+.axis{align-items:end}
+.axis-label{grid-area:info;font-size:.8rem;color:var(--ink-3)}
+.scale{grid-area:track;position:relative;height:1.35rem;margin:.35rem .5rem 0;font-size:.78rem;color:var(--ink-3)}
+.scale span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.scale span:first-child{transform:none}
+.scale span:last-child{transform:translateX(-100%)}
+
+.group{--line:var(--ink);margin-top:1.4rem}
+.g-green{--line:var(--green)}
+.g-blue{--line:var(--blue)}
+.g-amber{--line:var(--amber)}
+.g-red{--line:var(--red)}
+.group h3{display:flex;align-items:center;gap:.6rem;font-size:.95rem;font-weight:700;color:var(--ink-2);margin:0 0 .35rem}
+.group h3::before{content:"";width:.75rem;height:.75rem;border-radius:50%;background:var(--line)}
+
+.lane{border-top:1px solid var(--rule)}
+.lane > summary{display:block;list-style:none;cursor:pointer;padding:.8rem 0}
+.lane > summary::-webkit-details-marker,.station > summary::-webkit-details-marker{display:none}
+.info{grid-area:info;min-width:0}
+.lane-name{display:block;font-weight:700;font-size:1.08rem;line-height:1.25}
+.lane-purpose{display:block;color:var(--ink-2);font-size:.93rem;line-height:1.35}
+.lane-status{display:inline-block;margin-top:.3rem;font-size:.78rem;line-height:1.5;color:var(--ink-2);border:1px solid var(--ink-3);border-radius:1rem;padding:0 .55rem}
+
+.toggle{grid-area:toggle;position:relative;width:1.1rem;height:1.1rem;align-self:start;justify-self:end;margin-top:.2rem}
+.toggle::before,.toggle::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;border-radius:2px;background:var(--ink-3)}
+.toggle::after{transform:rotate(90deg)}
+details[open] > summary .toggle::after{transform:none}
+
+.track{grid-area:track;display:block;position:relative;height:1.75rem;margin:.55rem .5rem 0;
+  background-image:{{TICK_IMAGES}};background-size:1px 100%;background-repeat:no-repeat;background-position:{{TICK_POSITIONS}}}
+.origin{position:absolute;left:0;top:50%;width:.25rem;height:1rem;margin:-.5rem 0 0 -.125rem;border-radius:2px;background:var(--line)}
+.rail{position:absolute;left:0;top:50%;height:.375rem;margin-top:-.1875rem;border-radius:1rem;background:var(--line);transform-origin:left center}
+.rail-open{height:0;margin-top:-.1rem;border-radius:0;background:none;border-top:.2rem dashed var(--line)}
+.is-built .rail{background:none;border:1.5px solid var(--line)}
+.stop{position:absolute;top:50%;width:.875rem;height:.875rem;margin:-.4375rem 0 0 -.4375rem;border-radius:50%;background:var(--paper);border:.1875rem solid var(--line);box-shadow:0 0 0 2px var(--paper)}
+.stop::before{content:"";position:absolute;inset:-.55rem}
+.cap{position:absolute;top:50%;margin:-.62rem 0 0 .85rem;font-size:.78rem;line-height:1.25rem;color:var(--ink-3);white-space:nowrap}
+@media (hover:hover){
+  .stop:hover{z-index:4}
+  .stop:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + .55rem);left:50%;transform:translateX(-50%);z-index:5;
+    background:var(--ink);color:var(--paper);font-size:.78rem;font-weight:600;line-height:1.2;padding:.35rem .55rem;border-radius:.3rem;white-space:nowrap}
+  .stop.tip-r:hover::after{left:auto;right:-.6rem;transform:none}
+}
+
+.body{padding:.4rem 0 1.6rem;display:grid;gap:1.4rem}
+.route{--x:.5rem;list-style:none;margin:0;padding:0 0 0 1.9rem;position:relative}
+.route::before{content:"";position:absolute;left:calc(var(--x) - .125rem);top:.75rem;bottom:.75rem;width:.25rem;border-radius:1rem;background:var(--line)}
+.route li{position:relative;padding:.35rem 0}
+.route li::before{content:"";position:absolute;top:.72rem;left:calc(var(--x) - 1.9rem)}
+.r-start{font-weight:600}
+.r-start::before{width:1rem;height:.25rem;margin-left:-.5rem;border-radius:2px;background:var(--line)}
+.r-wait{color:var(--ink-3);font-size:.9rem}
+.r-send::before{width:.875rem;height:.875rem;margin:-.25rem 0 0 -.4375rem;border-radius:50%;background:var(--paper);border:.1875rem solid var(--line)}
+.r-split::before{width:.7rem;height:.7rem;margin:-.15rem 0 0 -.35rem;background:var(--paper);border:.1875rem solid var(--line);transform:rotate(45deg)}
+.r-note::before{width:.5rem;height:.5rem;margin:-.05rem 0 0 -.25rem;border-radius:50%;background:var(--line)}
+.r-kind{display:block;font-size:.78rem;color:var(--ink-3);line-height:1.3}
+.route strong{display:block;font-weight:700;line-height:1.3}
+.r-job,.r-subject{display:block;color:var(--ink-2);font-size:.93rem;line-height:1.4}
+.r-subject{color:var(--ink-3)}
+.notes{display:grid;gap:1rem;align-content:start}
+.notes h4{font-size:.9rem;font-weight:700;margin:0 0 .2rem}
+.notes ul{margin:0;padding-left:1.1rem;color:var(--ink-2);font-size:.93rem;line-height:1.45}
+.notes li + li{margin-top:.25rem}
+
+.planned{margin-top:4rem}
+.planned-intro{color:var(--ink-2);max-width:54ch;margin:-.5rem 0 1.5rem}
+.tiers{display:grid;gap:2.25rem}
+.tier{--line:var(--ink-3)}
+.tier h3{font-size:1.3rem;font-weight:800;letter-spacing:-.01em;margin:0}
+.tier-when{color:var(--ink-2);font-size:.93rem;line-height:1.4;margin:.15rem 0 .8rem}
+.stations{position:relative;padding-left:1.9rem}
+.stations::before{content:"";position:absolute;left:.4rem;top:.9rem;bottom:.9rem;border-left:.2rem dashed var(--ink-3)}
+.station > summary{list-style:none;cursor:pointer;position:relative;padding:.4rem 0;font-weight:700;line-height:1.3}
+.station > summary::before{content:"";position:absolute;left:-1.9rem;top:.55rem;width:1rem;height:1rem;border-radius:50%;background:var(--paper);border:.1875rem solid var(--ink-3)}
+.station[open] > summary::before{background:var(--ink-3)}
+.station-body{padding:.1rem 0 1.1rem;display:grid;gap:.9rem}
+.station-purpose{margin:0;color:var(--ink-2);font-size:.95rem;line-height:1.4}
+.station .route::before{width:0;background:none;border-left:.2rem dashed var(--line);left:calc(var(--x) - .1rem)}
+
+.foot{margin-top:4.5rem;border-top:1px solid var(--rule);padding:1.5rem 0 2.5rem;color:var(--ink-2);font-size:.9rem}
+.foot p{margin:0 0 .3rem}
+.foot strong{color:var(--ink)}
+
+@media (max-width:30rem){
+  .scale .minor{display:none}
+  .stop{width:.625rem;height:.625rem;margin:-.3125rem 0 0 -.3125rem;border-width:.15rem}
+}
+@media (min-width:54rem){
+  .row{grid-template-columns:18.5rem 1fr 1.25rem;grid-template-areas:"info track toggle";column-gap:1.5rem;align-items:center}
+  .scale,.track{margin-top:0}
+  .toggle{align-self:center;margin-top:0}
+  .body{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:2.5rem;padding-left:20rem;padding-right:2.75rem}
+  .tiers{grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem}
+  .tier-when{min-height:2.8em}
+}
+@media (prefers-reduced-motion:no-preference){
+  .toggle::after{transition:transform .18s}
+  .rail{animation:draw .9s cubic-bezier(.2,.7,.2,1) both}
+  .stop,.cap{animation:arrive .35s .75s both}
+  @keyframes draw{from{transform:scaleX(0)}}
+  @keyframes arrive{from{opacity:0}}
+}
+</style>
+</head>
+<body>
+<div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="wrap">
+  <h1>Flow Playbook</h1>
+  <p class="lead">The emails an online store sends on its own, and what each one is for.</p>
+  <p class="sub">{{N_CORE}} flows from a working Klaviyo account, with the store's details removed. Open any line to see it stop by stop.</p>
+  <ul class="key">
+    <li><span class="sw"></span>Running</li>
+    <li><span class="sw sw-built"></span>Built, not switched on</li>
+    <li><span class="sw sw-planned"></span>Planned</li>
+  </ul>
+</header>
+
+<main class="wrap">
+  <section class="map" aria-labelledby="map-title">
+    <h2 id="map-title">What goes out, and when</h2>
+    <div class="row axis" aria-hidden="true">
+      <span class="axis-label">Time since the flow started</span>
+      <div class="scale">{{SCALE}}</div>
+    </div>
+{{GROUPS}}
+  </section>
+
+  <section class="planned" aria-labelledby="planned-title">
+    <h2 id="planned-title">What to add as the store grows</h2>
+    <p class="planned-intro">{{N_PLANNED}} planned flows, in the order they become worth building.</p>
+    <div class="tiers">
+{{TIERS}}
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><strong>Flow Playbook</strong> v{{VERSION}}</p>
+    <p><a href="{{REPO_URL}}">Flow files and source on GitHub</a></p>
+    <p>An independent project. Not affiliated with or endorsed by Klaviyo.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  function openFromHash() {
+    var id = location.hash.slice(1);
+    var el = id && document.getElementById(id);
+    if (el && el.tagName === "DETAILS") { el.open = true; el.scrollIntoView(); }
+  }
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
+})();
+</script>
+</body>
+</html>

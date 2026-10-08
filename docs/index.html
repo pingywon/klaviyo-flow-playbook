@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow Playbook</title>
+<meta name="description" content="The emails an online store sends on its own, what each one is for, and what to add as the store grows. 11 Klaviyo flows with the store's details removed.">
+<meta property="og:title" content="Flow Playbook">
+<meta property="og:description" content="The emails an online store sends on its own, what each one is for, and what to add as the store grows.">
+<meta property="og:type" content="website">
+<style>
+@font-face{font-family:"Overpass";font-style:normal;font-weight:400 800;font-display:swap;src:url("fonts/overpass-latin.woff2") format("woff2")}
+:root{
+  color-scheme:light dark;
+  --paper:#f4f6f8;--ink:#16233b;--ink-2:#44526a;--ink-3:#5f6c80;--rule:#d3dae3;
+  --green:#0e8a6e;--blue:#1f5fd0;--amber:#e0a000;--red:#c0392b;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#12161c;--ink:#eef2f7;--ink-2:#b8c2d0;--ink-3:#93a0b3;--rule:#2c3542;
+    --green:#16a374;--blue:#3987e5;--amber:#c98500;--red:#d6453f;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.5 "Overpass",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:70rem;margin:0 auto;padding:0 1.25rem}
+a{color:inherit;text-underline-offset:.2em}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+.stripe{display:flex;height:.4rem}
+.stripe i{flex:1}
+.stripe i:nth-child(1){background:var(--green)}
+.stripe i:nth-child(2){background:var(--blue)}
+.stripe i:nth-child(3){background:var(--amber)}
+.stripe i:nth-child(4){background:var(--red)}
+
+h1{font-size:clamp(2.75rem,9vw,5.25rem);line-height:.92;font-weight:800;letter-spacing:-.035em;margin:2.75rem 0 1.1rem}
+h2{font-size:clamp(1.45rem,3.2vw,2rem);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin:0 0 1rem}
+.lead{font-size:clamp(1.15rem,2.5vw,1.55rem);line-height:1.3;font-weight:600;max-width:32ch;margin:0 0 .7rem}
+.sub{color:var(--ink-2);max-width:54ch;margin:0}
+
+.key{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;list-style:none;padding:0;margin:1.6rem 0 0;font-size:.9rem;color:var(--ink-2)}
+.key li{display:flex;align-items:center;gap:.55rem}
+.sw{width:2.2rem;height:.375rem;border-radius:1rem;background:var(--ink)}
+.sw-built{background:none;border:1.5px solid var(--ink)}
+.sw-planned{background:none;height:0;border-radius:0;border-top:.2rem dashed var(--ink-3)}
+
+.map{margin-top:3.25rem}
+.row{display:grid;grid-template-columns:1fr 1.25rem;grid-template-areas:"info toggle" "track track";column-gap:1rem}
+.axis{align-items:end}
+.axis-label{grid-area:info;font-size:.8rem;color:var(--ink-3)}
+.scale{grid-area:track;position:relative;height:1.35rem;margin:.35rem .5rem 0;font-size:.78rem;color:var(--ink-3)}
+.scale span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.scale span:first-child{transform:none}
+.scale span:last-child{transform:translateX(-100%)}
+
+.group{--line:var(--ink);margin-top:1.4rem}
+.g-green{--line:var(--green)}
+.g-blue{--line:var(--blue)}
+.g-amber{--line:var(--amber)}
+.g-red{--line:var(--red)}
+.group h3{display:flex;align-items:center;gap:.6rem;font-size:.95rem;font-weight:700;color:var(--ink-2);margin:0 0 .35rem}
+.group h3::before{content:"";width:.75rem;height:.75rem;border-radius:50%;background:var(--line)}
+
+.lane{border-top:1px solid var(--rule)}
+.lane > summary{display:block;list-style:none;cursor:pointer;padding:.8rem 0}
+.lane > summary::-webkit-details-marker,.station > summary::-webkit-details-marker{display:none}
+.info{grid-area:info;min-width:0}
+.lane-name{display:block;font-weight:700;font-size:1.08rem;line-height:1.25}
+.lane-purpose{display:block;color:var(--ink-2);font-size:.93rem;line-height:1.35}
+.lane-status{display:inline-block;margin-top:.3rem;font-size:.78rem;line-height:1.5;color:var(--ink-2);border:1px solid var(--ink-3);border-radius:1rem;padding:0 .55rem}
+
+.toggle{grid-area:toggle;position:relative;width:1.1rem;height:1.1rem;align-self:start;justify-self:end;margin-top:.2rem}
+.toggle::before,.toggle::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;border-radius:2px;background:var(--ink-3)}
+.toggle::after{transform:rotate(90deg)}
+details[open] > summary .toggle::after{transform:none}
+
+.track{grid-area:track;display:block;position:relative;height:1.75rem;margin:.55rem .5rem 0;
+  background-image:linear-gradient(var(--rule),var(--rule)),linear-gradient(var(--rule),var(--rule)),linear-gradient(var(--rule),var(--rule)),linear-gradient(var(--rule),var(--rule)),linear-gradient(var(--rule),var(--rule)),linear-gradient(var(--rule),var(--rule)),linear-gradient(var(--rule),var(--rule));background-size:1px 100%;background-repeat:no-repeat;background-position:0.0% 0,13.81% 0,31.68% 0,56.05% 0,71.04% 0,82.26% 0,100.0% 0}
+.origin{position:absolute;left:0;top:50%;width:.25rem;height:1rem;margin:-.5rem 0 0 -.125rem;border-radius:2px;background:var(--line)}
+.rail{position:absolute;left:0;top:50%;height:.375rem;margin-top:-.1875rem;border-radius:1rem;background:var(--line);transform-origin:left center}
+.rail-open{height:0;margin-top:-.1rem;border-radius:0;background:none;border-top:.2rem dashed var(--line)}
+.is-built .rail{background:none;border:1.5px solid var(--line)}
+.stop{position:absolute;top:50%;width:.875rem;height:.875rem;margin:-.4375rem 0 0 -.4375rem;border-radius:50%;background:var(--paper);border:.1875rem solid var(--line);box-shadow:0 0 0 2px var(--paper)}
+.stop::before{content:"";position:absolute;inset:-.55rem}
+.cap{position:absolute;top:50%;margin:-.62rem 0 0 .85rem;font-size:.78rem;line-height:1.25rem;color:var(--ink-3);white-space:nowrap}
+@media (hover:hover){
+  .stop:hover{z-index:4}
+  .stop:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + .55rem);left:50%;transform:translateX(-50%);z-index:5;
+    background:var(--ink);color:var(--paper);font-size:.78rem;font-weight:600;line-height:1.2;padding:.35rem .55rem;border-radius:.3rem;white-space:nowrap}
+  .stop.tip-r:hover::after{left:auto;right:-.6rem;transform:none}
+}
+
+.body{padding:.4rem 0 1.6rem;display:grid;gap:1.4rem}
+.route{--x:.5rem;list-style:none;margin:0;padding:0 0 0 1.9rem;position:relative}
+.route::before{content:"";position:absolute;left:calc(var(--x) - .125rem);top:.75rem;bottom:.75rem;width:.25rem;border-radius:1rem;background:var(--line)}
+.route li{position:relative;padding:.35rem 0}
+.route li::before{content:"";position:absolute;top:.72rem;left:calc(var(--x) - 1.9rem)}
+.r-start{font-weight:600}
+.r-start::before{width:1rem;height:.25rem;margin-left:-.5rem;border-radius:2px;background:var(--line)}
+.r-wait{color:var(--ink-3);font-size:.9rem}
+.r-send::before{width:.875rem;height:.875rem;margin:-.25rem 0 0 -.4375rem;border-radius:50%;background:var(--paper);border:.1875rem solid var(--line)}
+.r-split::before{width:.7rem;height:.7rem;margin:-.15rem 0 0 -.35rem;background:var(--paper);border:.1875rem solid var(--line);transform:rotate(45deg)}
+.r-note::before{width:.5rem;height:.5rem;margin:-.05rem 0 0 -.25rem;border-radius:50%;background:var(--line)}
+.r-kind{display:block;font-size:.78rem;color:var(--ink-3);line-height:1.3}
+.route strong{display:block;font-weight:700;line-height:1.3}
+.r-job,.r-subject{display:block;color:var(--ink-2);font-size:.93rem;line-height:1.4}
+.r-subject{color:var(--ink-3)}
+.notes{display:grid;gap:1rem;align-content:start}
+.notes h4{font-size:.9rem;font-weight:700;margin:0 0 .2rem}
+.notes ul{margin:0;padding-left:1.1rem;color:var(--ink-2);font-size:.93rem;line-height:1.45}
+.notes li + li{margin-top:.25rem}
+
+.planned{margin-top:4rem}
+.planned-intro{color:var(--ink-2);max-width:54ch;margin:-.5rem 0 1.5rem}
+.tiers{display:grid;gap:2.25rem}
+.tier{--line:var(--ink-3)}
+.tier h3{font-size:1.3rem;font-weight:800;letter-spacing:-.01em;margin:0}
+.tier-when{color:var(--ink-2);font-size:.93rem;line-height:1.4;margin:.15rem 0 .8rem}
+.stations{position:relative;padding-left:1.9rem}
+.stations::before{content:"";position:absolute;left:.4rem;top:.9rem;bottom:.9rem;border-left:.2rem dashed var(--ink-3)}
+.station > summary{list-style:none;cursor:pointer;position:relative;padding:.4rem 0;font-weight:700;line-height:1.3}
+.station > summary::before{content:"";position:absolute;left:-1.9rem;top:.55rem;width:1rem;height:1rem;border-radius:50%;background:var(--paper);border:.1875rem solid var(--ink-3)}
+.station[open] > summary::before{background:var(--ink-3)}
+.station-body{padding:.1rem 0 1.1rem;display:grid;gap:.9rem}
+.station-purpose{margin:0;color:var(--ink-2);font-size:.95rem;line-height:1.4}
+.station .route::before{width:0;background:none;border-left:.2rem dashed var(--line);left:calc(var(--x) - .1rem)}
+
+.foot{margin-top:4.5rem;border-top:1px solid var(--rule);padding:1.5rem 0 2.5rem;color:var(--ink-2);font-size:.9rem}
+.foot p{margin:0 0 .3rem}
+.foot strong{color:var(--ink)}
+
+@media (max-width:30rem){
+  .scale .minor{display:none}
+  .stop{width:.625rem;height:.625rem;margin:-.3125rem 0 0 -.3125rem;border-width:.15rem}
+}
+@media (min-width:54rem){
+  .row{grid-template-columns:18.5rem 1fr 1.25rem;grid-template-areas:"info track toggle";column-gap:1.5rem;align-items:center}
+  .scale,.track{margin-top:0}
+  .toggle{align-self:center;margin-top:0}
+  .body{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:2.5rem;padding-left:20rem;padding-right:2.75rem}
+  .tiers{grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem}
+  .tier-when{min-height:2.8em}
+}
+@media (prefers-reduced-motion:no-preference){
+  .toggle::after{transition:transform .18s}
+  .rail{animation:draw .9s cubic-bezier(.2,.7,.2,1) both}
+  .stop,.cap{animation:arrive .35s .75s both}
+  @keyframes draw{from{transform:scaleX(0)}}
+  @keyframes arrive{from{opacity:0}}
+}
+</style>
+</head>
+<body>
+<div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="wrap">
+  <h1>Flow Playbook</h1>
+  <p class="lead">The emails an online store sends on its own, and what each one is for.</p>
+  <p class="sub">11 flows from a working Klaviyo account, with the store's details removed. Open any line to see it stop by stop.</p>
+  <ul class="key">
+    <li><span class="sw"></span>Running</li>
+    <li><span class="sw sw-built"></span>Built, not switched on</li>
+    <li><span class="sw sw-planned"></span>Planned</li>
+  </ul>
+</header>
+
+<main class="wrap">
+  <section class="map" aria-labelledby="map-title">
+    <h2 id="map-title">What goes out, and when</h2>
+    <div class="row axis" aria-hidden="true">
+      <span class="axis-label">Time since the flow started</span>
+      <div class="scale"><span style="left:0.0%">Start</span><span class="minor" style="left:13.81%">5 min</span><span style="left:31.68%">1 hour</span><span style="left:56.05%">1 day</span><span style="left:71.04%">1 week</span><span class="minor" style="left:82.26%">1 month</span><span style="left:100.0%">10 months</span></div>
+    </div>
+    <div class="group g-green">
+      <h3>New subscriber</h3>
+      <details class="lane" id="welcome-series">
+        <summary><span class="row"><span class="info"><span class="lane-name">Welcome series</span><span class="lane-purpose">Turns a new subscriber into a first-time buyer.</span></span><span class="track" role="img" aria-label="3 sends: Welcome after 5 minutes; First-order code after 2 days; Why this shop after 5 days"><i class="origin"></i><i class="rail" style="width:68.45%"></i><b class="stop" style="left:13.81%" data-tip="Welcome, after 5 minutes"></b><b class="stop tip-r" style="left:61.4%" data-tip="First-order code, after 2 days"></b><b class="stop tip-r" style="left:68.45%" data-tip="Why this shop, after 5 days"></b></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when someone joins the newsletter list.</li><li class="r-wait">Wait 5 minutes</li><li class="r-send"><span class="r-kind">Email 1</span><strong>Welcome</strong><span class="r-job">Says hello and what to expect.</span><span class="r-subject">Example subject: &ldquo;Welcome aboard: here&#x27;s what to expect&rdquo;</span></li><li class="r-wait">Wait 2 days</li><li class="r-send"><span class="r-kind">Email 2</span><strong>First-order code</strong><span class="r-job">A one-time 10% code that expires in 30 days.</span><span class="r-subject">Example subject: &ldquo;Your first-order code is ready&rdquo;</span></li><li class="r-wait">Wait 3 days</li><li class="r-send"><span class="r-kind">Email 3</span><strong>Why this shop</strong><span class="r-job">The story behind what the shop sells. No offer.</span><span class="r-subject">Example subject: &ldquo;Why we&#x27;re picky about what we sell&rdquo;</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>Everyone added to the list enters once.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>The code waits until day 2. The first email only has to get opened.</li><li>The last email sells nothing. It gives a reason to stay subscribed.</li></ul></div><div><h4>Watch out</h4><ul><li>Bulk-adding old contacts to the list starts this flow for every one of them.</li></ul></div></div></div>
+      </details>
+    </div>
+    <div class="group g-blue">
+      <h3>While shopping</h3>
+      <details class="lane" id="browse-abandonment">
+        <summary><span class="row"><span class="info"><span class="lane-name">Browse abandonment</span><span class="lane-purpose">Brings back someone who looked and left.</span></span><span class="track" role="img" aria-label="1 send: The second look after 4 hours"><i class="origin"></i><i class="rail" style="width:42.27%"></i><b class="stop" style="left:42.27%" data-tip="The second look, after 4 hours"></b></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when someone views a product.</li><li class="r-wait">Wait 4 hours</li><li class="r-split"><strong>Clicked any email in the last 24 hours, or already got this reminder today?</strong><span class="r-job">Yes: Stops. They are already engaged.</span><span class="r-job">No: Continues.</span></li><li class="r-send"><span class="r-kind">Email</span><strong>The second look</strong><span class="r-job">Shows what they viewed, with a small one-time code.</span><span class="r-subject">Example subject: &ldquo;Still thinking it over?&rdquo;</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>Skips anyone who started a checkout in the last 4 hours. The cart flow has them.</li><li>Staff and test addresses are filtered out.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>One email only. Browsing is a weak signal, so it gets a light touch.</li></ul></div><div><h4>Watch out</h4><ul><li>Without the split, a frequent browser gets this every day.</li></ul></div></div></div>
+      </details>
+      <details class="lane" id="abandoned-cart">
+        <summary><span class="row"><span class="info"><span class="lane-name">Abandoned cart</span><span class="lane-purpose">Recovers a checkout that was started, not finished.</span></span><span class="track" role="img" aria-label="3 sends: Your cart is saved after 1 hour; Still holding it after 13 hours; Last call after 25 hours"><i class="origin"></i><i class="rail" style="width:56.36%"></i><b class="stop" style="left:31.68%" data-tip="Your cart is saved, after 1 hour"></b><b class="stop" style="left:51.33%" data-tip="Still holding it, after 13 hours"></b><b class="stop" style="left:56.36%" data-tip="Last call, after 25 hours"></b></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when someone starts a checkout.</li><li class="r-wait">Wait 1 hour</li><li class="r-send"><span class="r-kind">Email 1</span><strong>Your cart is saved</strong><span class="r-job">A plain reminder with a link straight back to the cart.</span><span class="r-subject">Example subject: &ldquo;We saved your cart&rdquo;</span></li><li class="r-wait">Wait 12 hours</li><li class="r-send"><span class="r-kind">Email 2</span><strong>Still holding it</strong><span class="r-job">Adds a deadline and answers the most common doubt.</span><span class="r-subject">Example subject: &ldquo;Your cart won&#x27;t hold forever&rdquo;</span></li><li class="r-wait">Wait 12 hours</li><li class="r-send"><span class="r-kind">Email 3</span><strong>Last call</strong><span class="r-job">Final reminder, with a 10% code.</span><span class="r-subject">Example subject: &ldquo;Last call: 10% off if you finish today&rdquo;</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>Anyone who orders leaves the flow at once.</li><li>The same person can re-enter after 7 days.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>The code only appears in the third email. Shoppers who would buy anyway never see it.</li><li>All three land inside 25 hours, while the intent is fresh.</li></ul></div><div><h4>Watch out</h4><ul><li>One bad template tag can make every send skip without an error. Check send counts after each template edit.</li></ul></div></div></div>
+      </details>
+      <details class="lane" id="price-drop-alert">
+        <summary><span class="row"><span class="info"><span class="lane-name">Price drop alert</span><span class="lane-purpose">Says when something they looked at got cheaper.</span></span><span class="track" role="img" aria-label="1 send: It just got cheaper at once"><i class="origin"></i><i class="rail" style="width:0.0%"></i><b class="stop" style="left:0.0%" data-tip="It just got cheaper, at once"></b><span class="cap" style="left:0%">sent at once</span></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when the price of a product drops, by any amount.</li><li class="r-send"><span class="r-kind">Email</span><strong>It just got cheaper</strong><span class="r-job">Shows the item, the old price and the new one.</span><span class="r-subject">Example subject: &ldquo;Something you looked at just dropped in price&rdquo;</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>Goes to people who viewed it or started a checkout with it in the last 60 days.</li><li>Skips anyone who already bought it.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>It is news, not a promotion. The price change is the offer.</li></ul></div><div><h4>Watch out</h4><ul><li>A one-cent drop is enough to send. Set a minimum if prices move often.</li></ul></div></div></div>
+      </details>
+      <details class="lane" id="back-in-stock">
+        <summary><span class="row"><span class="info"><span class="lane-name">Back in stock</span><span class="lane-purpose">Tells people a sold-out item has returned.</span></span><span class="track" role="img" aria-label="1 send: It&#x27;s back, when the product is back in stock"><i class="origin"></i><i class="rail rail-open" style="width:30%"></i><b class="stop" style="left:30%" data-tip="It&#x27;s back, when the product is back in stock"></b><span class="cap" style="left:30%">waits for the restock</span></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when someone asks to be told when a sold-out product returns.</li><li class="r-wait">Wait until the product is back in stock</li><li class="r-send"><span class="r-kind">Email</span><strong>It&#x27;s back</strong><span class="r-job">Names the product and links straight to it.</span><span class="r-subject">Example subject: &ldquo;Back in stock: the one you asked about&rdquo;</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>Sent as a transactional message. They asked for it, so it reaches people who are not on the newsletter.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>The highest-intent email in the set. They asked for this product by name.</li></ul></div><div><h4>Watch out</h4><ul><li>Transactional status needs the platform&#x27;s approval and locks the email while approved. Plan edits between restocks.</li></ul></div></div></div>
+      </details>
+      <details class="lane" id="waitlist-alert">
+        <summary><span class="row"><span class="info"><span class="lane-name">Waitlist alert</span><span class="lane-purpose">Tells the owner what shoppers are waiting for.</span></span><span class="track" role="img" aria-label="1 send: Note to the owner at once"><i class="origin"></i><i class="rail" style="width:0.0%"></i><b class="stop" style="left:0.0%" data-tip="Note to the owner, at once"></b><span class="cap" style="left:0%">sent at once</span></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when someone asks to be told about a sold-out product.</li><li class="r-send"><span class="r-kind">Internal alert</span><strong>Note to the owner</strong><span class="r-job">Which product and which customer, sent to the shop&#x27;s own inbox.</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>Internal only. No customer sees it.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>Every signup is a demand signal. It shows what to reorder first.</li></ul></div><div><h4>Watch out</h4><ul><li>A popular product can flood the inbox. Move to a daily summary as volume grows.</li></ul></div></div></div>
+      </details>
+    </div>
+    <div class="group g-amber">
+      <h3>After an order</h3>
+      <details class="lane" id="owners-guide-series">
+        <summary><span class="row"><span class="info"><span class="lane-name">Owner&#x27;s guide series</span><span class="lane-purpose">Teaches new customers to use what they bought.</span></span><span class="track" role="img" aria-label="5 sends: Getting started after 5 days; How to choose after 8 days; Care and upkeep after 13 days; Make it a habit after 23 days; What to add next after 33 days"><i class="origin"></i><i class="rail" style="width:82.99%"></i><b class="stop tip-r" style="left:68.45%" data-tip="Getting started, after 5 days"></b><b class="stop tip-r" style="left:72.07%" data-tip="How to choose, after 8 days"></b><b class="stop tip-r" style="left:75.81%" data-tip="Care and upkeep, after 13 days"></b><b class="stop tip-r" style="left:80.21%" data-tip="Make it a habit, after 23 days"></b><b class="stop tip-r" style="left:82.99%" data-tip="What to add next, after 33 days"></b></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when someone places an order.</li><li class="r-wait">Wait 5 days</li><li class="r-send"><span class="r-kind">Email 1</span><strong>Getting started</strong><span class="r-job">First-use tips, timed to land with the parcel.</span><span class="r-subject">Example subject: &ldquo;It should be with you by now: start here&rdquo;</span></li><li class="r-wait">Wait 3 days</li><li class="r-send"><span class="r-kind">Email 2</span><strong>How to choose</strong><span class="r-job">Explains the one spec that matters most.</span><span class="r-subject">Example subject: &ldquo;How to read a spec sheet in one minute&rdquo;</span></li><li class="r-wait">Wait 5 days</li><li class="r-send"><span class="r-kind">Email 3</span><strong>Care and upkeep</strong><span class="r-job">The common mistake that shortens the product&#x27;s life.</span><span class="r-subject">Example subject: &ldquo;The mistake that wears it out early&rdquo;</span></li><li class="r-wait">Wait 10 days</li><li class="r-send"><span class="r-kind">Email 4</span><strong>Make it a habit</strong><span class="r-job">How people fit it into an ordinary day.</span><span class="r-subject">Example subject: &ldquo;How to actually use it every day&rdquo;</span></li><li class="r-wait">Wait 10 days</li><li class="r-send"><span class="r-kind">Email 5</span><strong>What to add next</strong><span class="r-job">What most customers buy second. A soft sell.</span><span class="r-subject">Example subject: &ldquo;A month in: what most people add next&rdquo;</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>Every order starts the series.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>Four emails teach before one sells.</li><li>A customer who knows how to use it is less likely to send it back.</li></ul></div><div><h4>Watch out</h4><ul><li>Day 5 is a guess at delivery. Starting from the delivery event is more exact.</li></ul></div></div></div>
+      </details>
+      <details class="lane is-built" id="review-request">
+        <summary><span class="row"><span class="info"><span class="lane-name">Review request</span><span class="lane-purpose">Asks for a review after real use.</span><span class="lane-status">Built, not switched on</span></span><span class="track" role="img" aria-label="1 send: How is it working out? after 16 days"><i class="origin"></i><i class="rail" style="width:77.41%"></i><b class="stop tip-r" style="left:77.41%" data-tip="How is it working out?, after 16 days"></b></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when someone places an order.</li><li class="r-wait">Wait 16 days</li><li class="r-send"><span class="r-kind">Email</span><strong>How is it working out?</strong><span class="r-job">One question and one button. About a minute to answer.</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>There is an empty slot for a thank-you note 30 minutes after the order.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>Sixteen days covers shipping plus real use.</li></ul></div><div><h4>Watch out</h4><ul><li>Kept off while a reviews app sends its own request. Two asks for one review is one too many.</li></ul></div></div></div>
+      </details>
+      <details class="lane is-built" id="accessory-cross-sell">
+        <summary><span class="row"><span class="info"><span class="lane-name">Accessory cross-sell</span><span class="lane-purpose">Offers the add-on a new purchase needs.</span><span class="lane-status">Built, not switched on</span></span><span class="track" role="img" aria-label="1 send: The missing piece after 3 days"><i class="origin"></i><i class="rail" style="width:64.51%"></i><b class="stop tip-r" style="left:64.51%" data-tip="The missing piece, after 3 days"></b></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when someone places an order.</li><li class="r-wait">Wait 3 days</li><li class="r-send"><span class="r-kind">Email</span><strong>The missing piece</strong><span class="r-job">Offers the matching add-on, with 10% off that category.</span><span class="r-subject">Example subject: &ldquo;The one thing your order still needs&rdquo;</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>Every order enters. There is no product filter yet.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>Three days in, the order is still top of mind and the parcel is on its way.</li></ul></div><div><h4>Watch out</h4><ul><li>Before switching on, limit it to people who bought the main product without the add-on.</li></ul></div></div></div>
+      </details>
+      <details class="lane is-built" id="reorder-reminder">
+        <summary><span class="row"><span class="info"><span class="lane-name">Reorder reminder</span><span class="lane-purpose">Prompts a replacement before the old one wears out.</span><span class="lane-status">Built, not switched on</span></span><span class="track" role="img" aria-label="1 send: About ten months in after 300 days"><i class="origin"></i><i class="rail" style="width:100.0%"></i><b class="stop tip-r" style="left:100.0%" data-tip="About ten months in, after 300 days"></b></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when someone places an order.</li><li class="r-wait">Wait 300 days</li><li class="r-send"><span class="r-kind">Email</span><strong>About ten months in</strong><span class="r-job">Explains the signs of wear and links the replacement.</span><span class="r-subject">Example subject: &ldquo;Yours is about ten months old&rdquo;</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>Only orders from the category that wears out.</li><li>Skipped if they ordered anything in the last 60 days.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>The wait matches how long the product really lasts.</li><li>It opens with advice, so it reads as service.</li></ul></div><div><h4>Watch out</h4><ul><li>300 days is one number for a whole category. Split by product when lifespans differ.</li></ul></div></div></div>
+      </details>
+    </div>
+    <div class="group g-red">
+      <h3>Gone quiet</h3>
+      <details class="lane" id="win-back">
+        <summary><span class="row"><span class="info"><span class="lane-name">Win-back</span><span class="lane-purpose">Invites lapsed customers back before they forget.</span></span><span class="track" role="img" aria-label="2 sends: Come back at once; Last call after 7 days"><i class="origin"></i><i class="rail" style="width:71.04%"></i><b class="stop" style="left:0.0%" data-tip="Come back, at once"></b><b class="stop tip-r" style="left:71.04%" data-tip="Last call, after 7 days"></b></span><span class="toggle" aria-hidden="true"></span></span></summary>
+        <div class="body"><ol class="route"><li class="r-start">Starts when a customer enters the lapsed group: ordered before, nothing in 180 days, still subscribed.</li><li class="r-send"><span class="r-kind">Email 1</span><strong>Come back</strong><span class="r-job">A 10% code with no minimum.</span><span class="r-subject">Example subject: &ldquo;It&#x27;s been a while: here&#x27;s 10% to come back&rdquo;</span></li><li class="r-wait">Wait 7 days</li><li class="r-split"><strong>Ordered in the last 7 days?</strong><span class="r-job">Yes: Stops. They came back.</span><span class="r-job">No: Continues.</span></li><li class="r-send"><span class="r-kind">Email 2</span><strong>Last call</strong><span class="r-job">Says the code expires in 48 hours.</span><span class="r-subject">Example subject: &ldquo;Last call: your 10% ends in 48 hours&rdquo;</span></li></ol><div class="notes"><div><h4>Rules</h4><ul><li>The group refills itself. Nobody is added by hand.</li></ul></div><div><h4>Why it is built this way</h4><ul><li>Nobody who came back gets chased again.</li><li>Two emails, then silence.</li></ul></div><div><h4>Watch out</h4><ul><li>Set the 180 days from the real gap between orders. Too early annoys regulars. Too late and they are gone.</li></ul></div></div></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="planned" aria-labelledby="planned-title">
+    <h2 id="planned-title">What to add as the store grows</h2>
+    <p class="planned-intro">17 planned flows, in the order they become worth building.</p>
+    <div class="tiers">
+      <div class="tier">
+        <h3>Next</h3>
+        <p class="tier-when">Uses events the store already sends. No new tools.</p>
+        <div class="stations">
+          <details class="station" id="add-to-cart-reminder"><summary>Add-to-cart reminder</summary><div class="station-body"><p class="station-purpose">Catches shoppers who add to cart but never reach checkout.</p><ol class="route"><li class="r-start">Starts when someone adds a product to the cart.</li><li class="r-wait">Wait 3 hours</li><li class="r-split"><strong>Started a checkout or ordered since?</strong><span class="r-job">Yes: Stops. The cart flow or the order has them.</span><span class="r-job">No: Continues.</span></li><li class="r-send"><span class="r-kind">Email</span><strong>Still in your cart</strong><span class="r-job">Shows the item and links straight back to the cart.</span><span class="r-subject">Example subject: &ldquo;You left something in your cart&rdquo;</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>The add-to-cart event from the store platform.</li></ul></div><div><h4>Why</h4><ul><li>It reaches people one step earlier than the abandoned cart flow can.</li></ul></div></div></div></details>
+          <details class="station" id="delivery-timed-guide"><summary>Delivery-timed guide</summary><div class="station-body"><p class="station-purpose">Starts the how-to emails when the parcel actually arrives.</p><ol class="route"><li class="r-start">Starts when the carrier marks an order delivered.</li><li class="r-wait">Wait 1 hour</li><li class="r-send"><span class="r-kind">Email</span><strong>It&#x27;s here: start with this</strong><span class="r-job">First-use tips, sent the day it lands.</span></li><li class="r-note">The rest of the owner&#x27;s guide series follows from this point.</li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>The delivery event from the store platform or the carrier.</li></ul></div><div><h4>Why</h4><ul><li>Replaces the day-5 guess in the owner&#x27;s guide series.</li></ul></div></div></div></details>
+          <details class="station" id="second-order-nudge"><summary>Second-order nudge</summary><div class="station-body"><p class="station-purpose">Earns the second order, the hardest one to get.</p><ol class="route"><li class="r-start">Starts when someone places their first order.</li><li class="r-wait">Wait 30 days</li><li class="r-split"><strong>Ordered again?</strong><span class="r-job">Yes: Stops.</span><span class="r-job">No: Continues.</span></li><li class="r-send"><span class="r-kind">Email</span><strong>Ready for the next one?</strong><span class="r-job">Suggests what first-time buyers usually add.</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>Nothing new. Order history is already there.</li></ul></div><div><h4>Why</h4><ul><li>A first-time buyer has no habit yet. This gives one reason to return.</li></ul></div></div></div></details>
+          <details class="station" id="welcome-branch-for-buyers"><summary>Welcome branch for buyers</summary><div class="station-body"><p class="station-purpose">Stops offering a first-order code to people who already ordered.</p><ol class="route"><li class="r-start">Starts when someone joins the newsletter list (a split at the top of the welcome series).</li><li class="r-split"><strong>Has ordered before?</strong><span class="r-job">Yes: Gets a thank-you and the owner&#x27;s guide instead of the code.</span><span class="r-job">No: Gets the normal welcome series.</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>Nothing new. One split added to the welcome series.</li></ul></div><div><h4>Why</h4><ul><li>Existing customers join the list too. A first-order code tells them the shop does not know them.</li></ul></div></div></div></details>
+          <details class="station" id="sunset"><summary>Sunset</summary><div class="station-body"><p class="station-purpose">Stops emailing people who no longer open.</p><ol class="route"><li class="r-start">Starts when someone enters the unengaged group: no opens or clicks in 120 days.</li><li class="r-send"><span class="r-kind">Email</span><strong>Still want these?</strong><span class="r-job">One clear button to stay subscribed.</span><span class="r-subject">Example subject: &ldquo;Still want to hear from us?&rdquo;</span></li><li class="r-wait">Wait 7 days</li><li class="r-split"><strong>Clicked to stay?</strong><span class="r-job">Yes: Stops. They stay on the list.</span><span class="r-job">No: Continues.</span></li><li class="r-note">Marketing emails to them are switched off.</li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>A group built from opens and clicks.</li></ul></div><div><h4>Why</h4><ul><li>Inbox providers judge a sender by how many people engage.</li><li>Klaviyo bills by active profiles, so a clean list also costs less.</li></ul></div></div></div></details>
+          <details class="station" id="low-stock-alert"><summary>Low-stock alert</summary><div class="station-body"><p class="station-purpose">Warns interested shoppers when an item is nearly gone.</p><ol class="route"><li class="r-start">Starts when a product&#x27;s stock falls below a set number (a built-in trigger).</li><li class="r-send"><span class="r-kind">Email</span><strong>Almost gone</strong><span class="r-job">Shows the item and how few are left. No discount.</span><span class="r-subject">Example subject: &ldquo;Almost gone: the one you looked at&rdquo;</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>Stock levels synced from the store platform.</li></ul></div><div><h4>Why</h4><ul><li>Honest scarcity. It only sends when stock is truly low.</li></ul></div></div></div></details>
+          <details class="station" id="refund-follow-up"><summary>Refund follow-up</summary><div class="station-body"><p class="station-purpose">Turns a refund into feedback.</p><ol class="route"><li class="r-start">Starts when an order is refunded.</li><li class="r-wait">Wait 1 day</li><li class="r-send"><span class="r-kind">Email</span><strong>What went wrong?</strong><span class="r-job">One question. Replies go to a person.</span><span class="r-subject">Example subject: &ldquo;Sorry it didn&#x27;t work out. What went wrong?&rdquo;</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>The refund event from the store platform.</li></ul></div><div><h4>Why</h4><ul><li>The answers show what to fix on the product page.</li></ul></div></div></div></details>
+        </div>
+      </div>
+      <div class="tier">
+        <h3>Then</h3>
+        <p class="tier-when">Worth it once there are enough repeat buyers to group.</p>
+        <div class="stations">
+          <details class="station" id="vip-thank-you"><summary>VIP thank-you</summary><div class="station-body"><p class="station-purpose">Rewards the best customers before they ask.</p><ol class="route"><li class="r-start">Starts when someone enters the VIP group, for example three or more orders.</li><li class="r-send"><span class="r-kind">Email</span><strong>You&#x27;re one of our regulars</strong><span class="r-job">Thanks them. Gives early access to new arrivals, not a discount.</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>Enough repeat buyers for the group to mean something.</li></ul></div><div><h4>Why</h4><ul><li>Regulars buy without discounts. Recognition keeps it that way.</li></ul></div></div></div></details>
+          <details class="station" id="purchase-anniversary"><summary>Purchase anniversary</summary><div class="station-body"><p class="station-purpose">Marks a year since the first order.</p><ol class="route"><li class="r-start">Starts when the date of someone&#x27;s first order comes around (a date-based trigger).</li><li class="r-send"><span class="r-kind">Email</span><strong>One year in</strong><span class="r-job">Shows what is new since they bought. Suggests an upgrade or a replacement.</span><span class="r-subject">Example subject: &ldquo;One year in: here&#x27;s what&#x27;s new&rdquo;</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>The first-order date saved on each profile.</li></ul></div><div><h4>Why</h4><ul><li>A reason to write that is about them, not about a sale.</li></ul></div></div></div></details>
+          <details class="station" id="cross-sell-by-category"><summary>Cross-sell by category</summary><div class="station-body"><p class="station-purpose">Recommends the right next product for what was just bought.</p><ol class="route"><li class="r-start">Starts when someone places an order.</li><li class="r-wait">Wait 7 days</li><li class="r-note">Splits by the category they bought. Each path has its own recommendation.</li><li class="r-send"><span class="r-kind">Email</span><strong>Goes well with yours</strong><span class="r-job">The match for their category, or best sellers if there is none.</span><span class="r-subject">Example subject: &ldquo;Goes well with what you bought&rdquo;</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>Tidy product categories.</li><li>One recommendation set per category.</li></ul></div><div><h4>Why</h4><ul><li>Replaces the single accessory cross-sell with one that fits every order.</li></ul></div></div></div></details>
+          <details class="station" id="smarter-cart-branches"><summary>Smarter cart branches</summary><div class="station-body"><p class="station-purpose">Treats big carts and returning customers differently.</p><ol class="route"><li class="r-start">Starts when someone starts a checkout (splits inside the abandoned cart flow).</li><li class="r-split"><strong>Is the cart large?</strong><span class="r-job">Yes: Gets a personal note and an offer of help.</span><span class="r-job">No: Gets the standard reminders.</span></li><li class="r-split"><strong>Has ordered before?</strong><span class="r-job">Yes: Gets reminders with no code.</span><span class="r-job">No: Gets the code in the last email.</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>Enough carts each week to see a difference between paths.</li></ul></div><div><h4>Why</h4><ul><li>Discounts go only where they change the outcome.</li></ul></div></div></div></details>
+          <details class="station" id="review-to-referral"><summary>Review to referral</summary><div class="station-body"><p class="station-purpose">Asks happy reviewers to bring a friend.</p><ol class="route"><li class="r-start">Starts when someone leaves a five-star review.</li><li class="r-wait">Wait 1 day</li><li class="r-send"><span class="r-kind">Email</span><strong>Know someone who&#x27;d like it?</strong><span class="r-job">Thanks them and gives a link to share.</span><span class="r-subject">Example subject: &ldquo;Thanks for the review. Know someone who&#x27;d like it?&rdquo;</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>A reviews app that sends review events to Klaviyo.</li></ul></div><div><h4>Why</h4><ul><li>The ask lands at the moment they are happiest with the shop.</li></ul></div></div></div></details>
+        </div>
+      </div>
+      <div class="tier">
+        <h3>Later</h3>
+        <p class="tier-when">Needs a new channel or Klaviyo's predictions.</p>
+        <div class="stations">
+          <details class="station" id="text-message-steps"><summary>Text-message steps</summary><div class="station-body"><p class="station-purpose">Adds a text where minutes matter.</p><ol class="route"><li class="r-start">Starts when inside existing flows: abandoned cart, back in stock, delivery.</li><li class="r-send"><span class="r-kind">Text message</span><strong>Short text</strong><span class="r-job">Goes to people who agreed to texts. Email stays as the fallback.</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>A sending number.</li><li>Text-message consent collected at signup or checkout.</li></ul></div><div><h4>Why</h4><ul><li>A restock can sell out before an email gets opened.</li></ul></div></div></div></details>
+          <details class="station" id="predicted-reorder"><summary>Predicted reorder</summary><div class="station-body"><p class="station-purpose">Reminds each customer near the date they are likely to reorder.</p><ol class="route"><li class="r-start">Starts when a few days before Klaviyo&#x27;s predicted next-order date for that person.</li><li class="r-send"><span class="r-kind">Email</span><strong>About time for another?</strong><span class="r-job">Shows their last order with a link to reorder it.</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>Klaviyo&#x27;s predictive analytics. At the time of writing that takes about 500 customers with orders, 180 days of order history, orders in the last 30 days, and some customers with three or more orders.</li></ul></div><div><h4>Why</h4><ul><li>Replaces the fixed 300-day wait with a date per person.</li></ul></div></div></div></details>
+          <details class="station" id="churn-risk-save"><summary>Churn-risk save</summary><div class="station-body"><p class="station-purpose">Reaches customers who are drifting, before they lapse.</p><ol class="route"><li class="r-start">Starts when someone enters the high churn-risk group.</li><li class="r-send"><span class="r-kind">Email 1</span><strong>Anything we can help with?</strong><span class="r-job">Useful content first. No offer.</span></li><li class="r-wait">Wait 7 days</li><li class="r-split"><strong>Ordered since?</strong><span class="r-job">Yes: Stops.</span><span class="r-job">No: Continues.</span></li><li class="r-send"><span class="r-kind">Email 2</span><strong>A small thank-you</strong><span class="r-job">A modest offer for staying.</span><span class="r-subject">Example subject: &ldquo;A small thank-you for sticking around&rdquo;</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>Klaviyo&#x27;s predictive analytics, as for the predicted reorder.</li></ul></div><div><h4>Why</h4><ul><li>Win-back waits 180 days. This acts when the risk first shows.</li></ul></div></div></div></details>
+          <details class="station" id="alerts-to-team-chat"><summary>Alerts to team chat</summary><div class="station-body"><p class="station-purpose">Sends owner alerts to chat or a helpdesk instead of an inbox.</p><ol class="route"><li class="r-start">Starts when any internal alert: waitlist signups, refunds, large orders.</li><li class="r-send"><span class="r-kind">Webhook</span><strong>Post to team chat</strong><span class="r-job">Sends the product, the customer and a link.</span></li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>A chat tool or helpdesk that accepts webhooks.</li></ul></div><div><h4>Why</h4><ul><li>Alerts get seen where the team already works.</li></ul></div></div></div></details>
+          <details class="station" id="standing-ab-tests"><summary>Standing A/B tests</summary><div class="station-body"><p class="station-purpose">Keeps one test running on the busiest flows.</p><ol class="route"><li class="r-start">Starts when inside the welcome series and the abandoned cart flow.</li><li class="r-note">Tests one thing at a time: send time, subject line, or code against no code.</li><li class="r-note">Keeps the winner, then starts the next test.</li></ol><div class="notes"><div><h4>What it needs</h4><ul><li>Enough sends each week to reach a clear result.</li></ul></div><div><h4>Why</h4><ul><li>Small gains on the busiest flows add up faster than a new flow.</li></ul></div></div></div></details>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><strong>Flow Playbook</strong> v1.0.0</p>
+    <p><a href="https://github.com/pingywon/klaviyo-flow-playbook">Flow files and source on GitHub</a></p>
+    <p>An independent project. Not affiliated with or endorsed by Klaviyo.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  function openFromHash() {
+    var id = location.hash.slice(1);
+    var el = id && document.getElementById(id);
+    if (el && el.tagName === "DETAILS") { el.open = true; el.scrollIntoView(); }
+  }
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
+})();
+</script>
+</body>
+</html>
